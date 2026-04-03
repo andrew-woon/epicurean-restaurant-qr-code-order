@@ -297,36 +297,37 @@ const MenuScreen = () => {
 
         {/* Food List */}
         <section className="space-y-10">
-          <h3 className="font-serif text-3xl font-bold mb-8">From the Hearth</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <h3 className="font-serif text-2xl md:text-3xl font-bold mb-6 md:mb-8">From the Hearth</h3>
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
             {filteredDishes.map(dish => (
               <motion.div 
                 layout
                 key={dish.id}
                 onClick={() => !dish.isSoldOut && navigate(`/dish/${dish.id}`)}
                 className={cn(
-                  "group flex flex-col p-4 rounded-2xl shadow-sm hover:shadow-xl transition-all cursor-pointer border border-outline-variant/10",
+                  "group flex flex-col p-3 md:p-4 rounded-xl md:rounded-2xl shadow-sm hover:shadow-xl transition-all cursor-pointer border border-outline-variant/10",
                   dish.isSoldOut ? "bg-surface-container-low opacity-60 grayscale" : "bg-white"
                 )}
               >
-                <div className="relative aspect-square mb-4 overflow-hidden rounded-xl">
+                <div className="relative aspect-square mb-3 md:mb-4 overflow-hidden rounded-lg md:rounded-xl">
                   <img src={dish.image} alt={dish.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   {dish.isSoldOut && (
                     <div className="absolute inset-0 flex items-center justify-center bg-on-surface/20">
-                      <span className="bg-on-surface/90 text-white px-3 py-1.5 rounded-lg text-xs font-bold tracking-widest uppercase">Sold Out</span>
+                      <span className="bg-on-surface/90 text-white px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[8px] md:text-xs font-bold tracking-widest uppercase">Sold Out</span>
                     </div>
                   )}
                 </div>
                 <div className="flex-grow flex flex-col">
-                  <h4 className="font-bold text-lg text-on-surface group-hover:text-primary transition-colors">{dish.name}</h4>
-                  <p className="text-sm text-on-surface-variant line-clamp-2 mt-2 leading-relaxed">{dish.description}</p>
-                  <div className="flex justify-between items-center mt-auto pt-4">
-                    <span className={cn("font-bold text-xl", dish.isSoldOut ? "text-on-surface-variant" : "text-primary")}>
+                  <h4 className="font-bold text-sm md:text-lg text-on-surface group-hover:text-primary transition-colors line-clamp-1">{dish.name}</h4>
+                  <p className="text-[10px] md:text-sm text-on-surface-variant line-clamp-1 md:line-clamp-2 mt-1 md:mt-2 leading-relaxed">{dish.description}</p>
+                  <div className="flex justify-between items-center mt-auto pt-2 md:pt-4">
+                    <span className={cn("font-bold text-base md:text-xl", dish.isSoldOut ? "text-on-surface-variant" : "text-primary")}>
                       ${dish.price.toFixed(2)}
                     </span>
                     {!dish.isSoldOut && (
-                      <div className="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container transition-all active:scale-90 shadow-md shadow-primary/20">
-                        <Plus size={20} />
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container transition-all active:scale-90 shadow-md shadow-primary/20">
+                        <Plus size={16} className="md:hidden" />
+                        <Plus size={20} className="hidden md:block" />
                       </div>
                     )}
                   </div>
