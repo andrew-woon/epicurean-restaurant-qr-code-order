@@ -29,7 +29,10 @@ import {
   Check,
   ArrowRight,
   Table as TableIcon,
-  DollarSign
+  DollarSign,
+  QrCode,
+  Scan,
+  Sparkles
 } from 'lucide-react';
 import { cn } from './lib/utils';
 import { DISHES, Dish, CartItem as CartItemType } from './types';
@@ -87,63 +90,68 @@ const AppLayout = ({ children, showNav = true, isAdmin = false }: { children: Re
   return (
     <div className="min-h-screen bg-background text-on-surface">
       {/* Desktop Sidebar */}
-      <aside className={cn(
-        "h-full w-72 fixed left-0 top-0 border-r border-outline-variant/10 bg-white z-40 hidden md:flex flex-col py-8 gap-2",
-      )}>
-        <div className="font-serif text-primary mb-8 px-8 text-2xl italic font-bold">
-          The Epicurean
-        </div>
-        
-        {isAdmin ? (
-          <>
-            <div className="px-8 mb-10 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
-                <img src="https://picsum.photos/seed/chef/200" alt="Chef" className="w-full h-full object-cover" />
+      {showNav && (
+        <aside className={cn(
+          "h-full w-72 fixed left-0 top-0 border-r border-outline-variant/10 bg-white z-40 hidden md:flex flex-col py-8 gap-2",
+        )}>
+          <div className="font-serif text-primary mb-8 px-8 text-2xl italic font-bold">
+            Kopitiam 1924
+          </div>
+          
+          {isAdmin ? (
+            <>
+              <div className="px-8 mb-10 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+                  <img src="https://picsum.photos/seed/chef/200" alt="Chef" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">Chef's Table</h3>
+                  <p className="text-[10px] text-on-surface-variant uppercase tracking-widest">Admin Console</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-sm">Chef's Table</h3>
-                <p className="text-[10px] text-on-surface-variant uppercase tracking-widest">Admin Console</p>
-              </div>
-            </div>
+              <nav className="flex-1">
+                <Link to="/admin" className={cn("flex items-center gap-3 py-3 px-8 mr-4 rounded-r-full transition-all", location.pathname === '/admin' ? "bg-primary-fixed text-on-primary-fixed-variant" : "text-on-surface-variant hover:bg-surface-container-low")}>
+                  <LayoutDashboard size={18} />
+                  <span className="font-semibold text-sm">Dashboard</span>
+                </Link>
+                <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
+                  <Edit3 size={18} />
+                  <span className="font-semibold text-sm">Menu Editor</span>
+                </button>
+                <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
+                  <BarChart3 size={18} />
+                  <span className="font-semibold text-sm">Analytics</span>
+                </button>
+                <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
+                  <Settings size={18} />
+                  <span className="font-semibold text-sm">Settings</span>
+                </button>
+              </nav>
+            </>
+          ) : (
             <nav className="flex-1">
-              <Link to="/admin" className={cn("flex items-center gap-3 py-3 px-8 mr-4 rounded-r-full transition-all", location.pathname === '/admin' ? "bg-primary-fixed text-on-primary-fixed-variant" : "text-on-surface-variant hover:bg-surface-container-low")}>
-                <LayoutDashboard size={18} />
-                <span className="font-semibold text-sm">Dashboard</span>
+              <Link to="/" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
+                <Utensils size={20} />
+                <span className="font-semibold text-sm">Menu</span>
               </Link>
-              <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
-                <Edit3 size={18} />
-                <span className="font-semibold text-sm">Menu Editor</span>
-              </button>
-              <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
-                <BarChart3 size={18} />
-                <span className="font-semibold text-sm">Analytics</span>
-              </button>
-              <button className="w-full flex items-center gap-3 py-3 px-8 text-on-surface-variant hover:bg-surface-container-low transition-all hover:pl-10">
-                <Settings size={18} />
-                <span className="font-semibold text-sm">Settings</span>
-              </button>
+              <Link to="/cart" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/cart' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
+                <ShoppingBag size={20} />
+                <span className="font-semibold text-sm">Cart</span>
+              </Link>
+              <Link to="/orders" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/orders' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
+                <ReceiptText size={20} />
+                <span className="font-semibold text-sm">Orders</span>
+              </Link>
             </nav>
-          </>
-        ) : (
-          <nav className="flex-1">
-            <Link to="/" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
-              <Utensils size={20} />
-              <span className="font-semibold text-sm">Menu</span>
-            </Link>
-            <Link to="/cart" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/cart' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
-              <ShoppingBag size={20} />
-              <span className="font-semibold text-sm">Cart</span>
-            </Link>
-            <Link to="/orders" className={cn("flex items-center gap-4 px-8 py-4 transition-all", location.pathname === '/orders' ? "bg-primary-fixed text-on-primary-fixed-variant rounded-r-full mr-4" : "text-on-surface-variant hover:bg-surface-container-low hover:pl-10")}>
-              <ReceiptText size={20} />
-              <span className="font-semibold text-sm">Orders</span>
-            </Link>
-          </nav>
-        )}
-      </aside>
+          )}
+        </aside>
+      )}
 
       {/* Main Content */}
-      <main className={cn("pb-32 transition-all duration-300", "md:ml-72")}>
+      <main className={cn(
+        "pb-32 transition-all duration-300", 
+        showNav ? "md:ml-72" : "md:ml-0"
+      )}>
         {children}
       </main>
 
@@ -206,9 +214,131 @@ const AppLayout = ({ children, showNav = true, isAdmin = false }: { children: Re
 
 // --- Screens ---
 
+const ScanScreen = ({ onScan }: { onScan: (table: string) => void }) => {
+  const [isScanning, setIsScanning] = useState(false);
+
+  const simulateScan = () => {
+    setIsScanning(true);
+    setTimeout(() => {
+      onScan('Twelve');
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#1a1c1c] flex flex-col items-center justify-start pt-12 md:pt-20 p-6 overflow-y-auto">
+      {/* Ambient Background Glow */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] -z-10"></div>
+      </div>
+
+      <motion.div 
+        initial={{ y: 100, opacity: 0, rotateX: 20 }}
+        animate={{ y: 0, opacity: 1, rotateX: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative w-full max-w-md perspective-1000 shrink-0"
+      >
+        {/* The Bill Presenter (Leather Clip Thingy) */}
+        <div className="relative bg-[#2a2d2d] rounded-[2.5rem] shadow-2xl border border-white/5 overflow-hidden p-1">
+          {/* Leather Texture Overlay */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leather.png")' }}></div>
+          
+          {/* Inner Content Area */}
+          <div className="relative bg-[#1a1c1c] rounded-[2.2rem] p-8 flex flex-col items-center text-center">
+            {/* Gold Clip at the top */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-12 bg-gradient-to-b from-[#d4af37] to-[#aa8a2e] rounded-b-2xl shadow-lg flex items-center justify-center border-x border-b border-white/20">
+              <div className="w-24 h-1 bg-white/20 rounded-full"></div>
+            </div>
+
+            <div className="mt-12 mb-8">
+              <div className="font-serif italic text-[#d4af37] text-3xl font-bold mb-2 tracking-tight">Kopitiam 1924</div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-white/40 font-bold">Traditional Flavors • Local Heritage</div>
+            </div>
+
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-12"></div>
+
+            <div className="relative group cursor-pointer" onClick={simulateScan}>
+              <AnimatePresence mode="wait">
+                {isScanning ? (
+                  <motion.div 
+                    key="scanning"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 1.2, opacity: 0 }}
+                    className="flex flex-col items-center justify-center py-12"
+                  >
+                    <div className="relative">
+                      <motion.div 
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="w-24 h-24 border-4 border-primary/20 border-t-primary rounded-full"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Sparkles className="text-primary animate-pulse" size={32} />
+                      </div>
+                    </div>
+                    <p className="mt-6 text-white font-bold uppercase tracking-widest text-xs animate-pulse">Authenticating Table...</p>
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="qr"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col items-center"
+                  >
+                    {/* QR Code Container */}
+                    <div className="relative p-6 bg-white rounded-3xl shadow-inner mb-8 group-hover:scale-105 transition-transform duration-500">
+                      <div className="absolute inset-0 bg-primary/5 rounded-3xl animate-pulse"></div>
+                      <QrCode size={160} className="text-[#1a1c1c] relative z-10" strokeWidth={1.5} />
+                      
+                      {/* Scanning Line Animation */}
+                      <motion.div 
+                        animate={{ top: ['0%', '100%', '0%'] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute left-0 w-full h-0.5 bg-primary/50 shadow-[0_0_15px_rgba(173,44,0,0.5)] z-20"
+                      />
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-sm">
+                      <div className="flex items-center gap-3 text-white/80">
+                        <Scan size={18} className="text-primary" />
+                        <span className="text-xs font-bold uppercase tracking-widest">Tap to Scan QR Code</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <div className="mt-16 text-white/30 text-[10px] uppercase tracking-widest font-bold">
+              Table Twelve • Main Dining Room
+            </div>
+          </div>
+        </div>
+
+        {/* Shadow under the presenter */}
+        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-10 bg-black/40 blur-2xl -z-10 rounded-full"></div>
+      </motion.div>
+
+      {/* Instructions Overlay */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="mt-16 md:mt-24 text-center relative z-10 shrink-0 pb-12"
+      >
+        <p className="text-white/40 text-xs font-medium tracking-wide">
+          Welcome to <span className="text-white">Kopitiam 1924</span>.<br />
+          Please scan the QR code on your table to start ordering.
+        </p>
+      </motion.div>
+    </div>
+  );
+};
+
 const MenuScreen = () => {
   const [activeCategory, setActiveCategory] = useState('All Menu');
-  const categories = ['All Menu', 'Starters', 'Mains', 'Desserts', 'Drinks'];
+  const categories = ['All Menu', 'Toast & Eggs', 'Main Course', 'Small Bites', 'Beverages'];
   const navigate = useNavigate();
 
   const filteredDishes = activeCategory === 'All Menu' 
@@ -221,7 +351,7 @@ const MenuScreen = () => {
         <div className="flex justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
             <Utensils className="text-primary md:hidden" size={24} />
-            <h1 className="font-serif italic text-primary text-2xl">The Epicurean</h1>
+            <h1 className="font-serif italic text-primary text-2xl">Kopitiam 1924</h1>
           </div>
           <IconButton icon={Bell} />
         </div>
@@ -231,16 +361,15 @@ const MenuScreen = () => {
         {/* Hero Section */}
         <section className="py-8 flex flex-col lg:flex-row lg:items-center gap-12 overflow-hidden">
           <div className="relative w-full lg:w-1/2">
-            <div className="absolute -top-10 -left-10 w-64 h-64 bg-secondary-container/30 rounded-full blur-3xl -z-10"></div>
             <motion.h2 
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              className="font-serif text-5xl md:text-7xl xl:text-8xl font-bold text-on-surface leading-tight tracking-tight"
+              className="font-serif text-5xl md:text-6xl xl:text-7xl font-bold text-on-surface leading-tight tracking-tight"
             >
-              Seasonal <br /> <span className="text-primary">Indulgence</span>
+              Taste of <br /> <span className="text-primary">Heritage</span>
             </motion.h2>
             <p className="mt-6 text-on-surface-variant font-sans text-lg md:text-xl max-w-md leading-relaxed">
-              Artisanally crafted flavors, delivered from our hearth to your table. Experience culinary excellence in every bite.
+              Serving authentic local delights since 1924. From charcoal-grilled toast to our signature pulled tea.
             </p>
           </div>
           <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-end">
@@ -250,13 +379,13 @@ const MenuScreen = () => {
               transition={{ delay: 0.2 }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl transform translate-x-4 translate-y-4"></div>
               <motion.img 
                 animate={{ rotate: [0, 3, 0] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpApyZLCEAXl-5hECLRYW4lOXUTU2QmemZpXyMYtZ73RDTfhT7z-wkaimi0Aqn2a_sbv-RvVu1Vsv9XwMxbbDFFyYXu9k4xK5Q9ctJyjAn39ETGqWm45fsxldBH1ivvcVJ7OJjteRkjwPKn6vGaCn3j4s13jLTw9yufPiiD_1gf8EprWMmP7_adyDzISdOS_F8ib29W2vfgP9y88BRLqcziefyD3QStCKkKmrrzVMxbEKrXDpjhUbea_Y4EyTpS-Pz-pMX6Kx94Ybj" 
-                alt="Signature Dish" 
-                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] object-cover rounded-full shadow-2xl border-4 border-white relative z-10"
+                src="https://images.shutterstock.com/image-vector/hand-drawn-sketch-traditional-coffee-600w-2144363311.jpg" 
+                alt="Traditional Kopitiam Cup" 
+                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] object-cover object-top rounded-full border-4 border-white relative z-10"
+                referrerPolicy="no-referrer"
               />
             </motion.div>
           </div>
@@ -310,7 +439,7 @@ const MenuScreen = () => {
                 )}
               >
                 <div className="relative aspect-square mb-3 md:mb-4 overflow-hidden rounded-lg md:rounded-xl">
-                  <img src={dish.image} alt={dish.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <img src={dish.image} alt={dish.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer" />
                   {dish.isSoldOut && (
                     <div className="absolute inset-0 flex items-center justify-center bg-on-surface/20">
                       <span className="bg-on-surface/90 text-white px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[8px] md:text-xs font-bold tracking-widest uppercase">Sold Out</span>
@@ -365,10 +494,10 @@ const ProductDetailScreen = () => {
 
   return (
     <AppLayout showNav={false}>
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-4 md:left-72 md:w-[calc(100%-18rem)]">
+      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-4">
           <IconButton icon={ArrowLeft} onClick={() => navigate(-1)} />
-          <span className="font-serif italic text-primary text-2xl">The Epicurean</span>
+          <span className="font-serif italic text-primary text-2xl">Kopitiam 1924</span>
         </div>
         <div className="flex items-center gap-2">
           <IconButton icon={Heart} />
@@ -377,28 +506,27 @@ const ProductDetailScreen = () => {
       </header>
 
       <div className="flex flex-col lg:flex-row min-h-screen">
-        <section className="relative w-full lg:w-1/2 h-[397px] lg:h-screen lg:sticky lg:top-0 overflow-hidden bg-surface-container-low flex items-center justify-center">
+        <section className="relative w-full lg:w-[45%] h-[397px] lg:h-screen lg:sticky lg:top-0 overflow-hidden bg-surface-container-low flex items-center justify-center">
           <div className="absolute inset-0 z-0">
-            <img src={dish.image} alt={dish.name} className="w-full h-full object-cover" />
+            <img src={dish.image} alt={dish.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent lg:bg-gradient-to-r"></div>
           </div>
-          <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
         </section>
 
-        <div className="flex-1 px-6 py-12 lg:px-12 lg:py-24 max-w-3xl">
-          <div className="bg-white p-8 xl:rounded-3xl editorial-shadow lg:shadow-none lg:p-0">
+        <div className="flex-1 px-6 py-12 lg:px-12 lg:py-20 flex justify-center">
+          <div className="bg-white p-4 md:p-6 xl:rounded-3xl editorial-shadow lg:shadow-none lg:p-0 max-w-2xl w-full">
             <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-8">
               <div>
-                <span className="font-sans text-primary font-bold uppercase tracking-[0.2em] text-[10px] mb-2 block">Signature Entrée</span>
-                <h1 className="font-serif font-bold text-4xl lg:text-6xl text-on-surface leading-tight">{dish.name}</h1>
+                <span className="font-sans text-primary font-bold uppercase tracking-[0.2em] text-[10px] mb-2 block">Kopitiam Special</span>
+                <h1 className="font-serif font-bold text-3xl md:text-4xl lg:text-5xl text-on-surface leading-tight">{dish.name}</h1>
               </div>
               <div className="flex items-baseline gap-1">
                 <span className="text-on-surface-variant text-lg">$</span>
-                <span className="text-primary font-serif font-bold text-4xl lg:text-5xl italic">{dish.price.toFixed(2)}</span>
+                <span className="text-primary font-serif font-bold text-3xl md:text-4xl lg:text-5xl italic">{dish.price.toFixed(2)}</span>
               </div>
             </div>
             
-            <p className="text-on-surface-variant text-lg lg:text-xl leading-relaxed mb-10">
+            <p className="text-on-surface-variant text-base md:text-lg lg:text-xl leading-relaxed mb-10">
               {dish.description}
             </p>
 
@@ -412,16 +540,16 @@ const ProductDetailScreen = () => {
 
             <div className="space-y-16">
               <section>
-                <h3 className="font-serif text-2xl lg:text-3xl font-bold text-on-surface mb-8 italic">Tailor Your Palette</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {['No Onions', 'Extra Vinaigrette'].map(option => (
+                <h3 className="font-serif text-xl md:text-2xl lg:text-3xl font-bold text-on-surface mb-6 md:mb-8 italic">Customize Your Order</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                  {['Less Sugar', 'No Ice', 'Extra Butter', 'More Spicy'].map(option => (
                     <label 
                       key={option}
-                      className="flex items-center justify-between p-6 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-primary-fixed/20 transition-all group"
+                      className="flex items-center justify-between p-3 md:p-4 bg-surface-container-low rounded-2xl cursor-pointer hover:bg-primary-fixed/20 transition-all group"
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-3 md:gap-4">
                         <div className={cn(
-                          "w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-colors",
+                          "w-5 h-5 md:w-6 md:h-6 rounded-lg border-2 flex items-center justify-center transition-colors",
                           customizations.includes(option) ? "border-primary bg-primary" : "border-outline group-hover:border-primary"
                         )}>
                           <input 
@@ -430,41 +558,41 @@ const ProductDetailScreen = () => {
                             checked={customizations.includes(option)}
                             onChange={() => toggleCustomization(option)}
                           />
-                          {customizations.includes(option) && <Check size={16} className="text-white" />}
+                          {customizations.includes(option) && <Check size={14} className="text-white" />}
                         </div>
-                        <span className="font-semibold text-on-surface text-lg">{option}</span>
+                        <span className="font-semibold text-on-surface text-base md:text-lg">{option}</span>
                       </div>
-                      <span className="text-on-surface-variant text-sm font-medium">{option === 'No Onions' ? 'Free' : '+$0.50'}</span>
+                      <span className="text-on-surface-variant text-xs md:text-sm font-medium">Free</span>
                     </label>
                   ))}
                 </div>
               </section>
 
-              <section className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 <div>
-                  <h4 className="text-xs uppercase tracking-widest text-on-surface-variant mb-6 font-bold">Quantity</h4>
-                  <div className="flex items-center bg-surface-container p-1.5 rounded-3xl w-fit">
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 md:mb-6 font-bold">Quantity</h4>
+                  <div className="flex items-center bg-surface-container p-1 rounded-3xl w-fit">
                     <button 
                       onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      className="w-14 h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm hover:text-primary transition-all active:scale-90"
+                      className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm hover:text-primary transition-all active:scale-90"
                     >
-                      <Minus size={24} />
+                      <Minus size={20} />
                     </button>
-                    <span className="w-20 text-center font-serif font-bold text-2xl">{quantity}</span>
+                    <span className="w-12 md:w-20 text-center font-serif font-bold text-xl md:text-2xl">{quantity}</span>
                     <button 
                       onClick={() => setQuantity(q => q + 1)}
-                      className="w-14 h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm hover:text-primary transition-all active:scale-90"
+                      className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm hover:text-primary transition-all active:scale-90"
                     >
-                      <Plus size={24} />
+                      <Plus size={20} />
                     </button>
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-xs uppercase tracking-widest text-on-surface-variant mb-6 font-bold">Special Instructions</h4>
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 md:mb-6 font-bold">Special Instructions</h4>
                   <textarea 
                     value={specialInstructions}
                     onChange={(e) => setSpecialInstructions(e.target.value)}
-                    className="w-full bg-surface-container border-none rounded-2xl p-6 text-on-surface focus:ring-2 focus:ring-primary/20 ring-inset placeholder:text-on-surface-variant/40 min-h-[120px] transition-all" 
+                    className="w-full bg-surface-container border-none rounded-2xl p-4 md:p-6 text-on-surface focus:ring-2 focus:ring-primary/20 ring-inset placeholder:text-on-surface-variant/40 min-h-[100px] md:min-h-[120px] transition-all text-sm" 
                     placeholder="Add a note for the kitchen..."
                   />
                 </div>
@@ -474,13 +602,13 @@ const ProductDetailScreen = () => {
         </div>
       </div>
 
-      <footer className="fixed bottom-0 left-0 w-full z-50 px-6 pb-8 pt-4 bg-white/90 backdrop-blur-xl flex justify-center items-center shadow-[0_-4px_32px_rgba(26,28,28,0.08)] md:left-72 md:w-[calc(100%-18rem)]">
-        <div className="max-w-3xl w-full flex items-center gap-8">
+      <footer className="fixed bottom-0 left-0 w-full z-50 px-6 pb-8 pt-4 bg-white/90 backdrop-blur-xl flex justify-center items-center shadow-[0_-4px_32px_rgba(26,28,28,0.08)]">
+        <div className="max-w-4xl w-full flex items-center gap-8">
           <div className="hidden sm:flex flex-col">
             <span className="text-[10px] uppercase text-on-surface-variant font-bold tracking-widest">Total Estimate</span>
             <span className="font-serif font-bold text-3xl text-on-surface">${(dish.price * quantity).toFixed(2)}</span>
           </div>
-          <Button onClick={handleAdd} className="flex-1 py-6 gap-3 text-lg">
+          <Button onClick={handleAdd} className="flex-1 py-4 gap-3 text-lg">
             Add to Order
             <ShoppingBag size={24} />
           </Button>
@@ -490,7 +618,7 @@ const ProductDetailScreen = () => {
   );
 };
 
-const CartScreen = () => {
+const CartScreen = ({ tableNumber = 'Twelve' }: { tableNumber?: string }) => {
   const { cart, updateQuantity, totalPrice, placeOrder } = useCart();
   const navigate = useNavigate();
   const subtotal = totalPrice;
@@ -509,7 +637,7 @@ const CartScreen = () => {
         <div className="flex justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
             <Utensils className="text-primary md:hidden" size={24} />
-            <span className="font-serif italic text-primary text-2xl">The Epicurean</span>
+            <span className="font-serif italic text-primary text-2xl">Kopitiam 1924</span>
           </div>
           <IconButton icon={Bell} />
         </div>
@@ -517,8 +645,8 @@ const CartScreen = () => {
 
       <main className="pt-24 px-6 max-w-7xl mx-auto">
         <section className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-on-surface mb-3 font-serif">Review Order</h1>
-          <p className="text-on-surface-variant font-sans text-lg">Refining your culinary selection</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-on-surface mb-3 font-serif">Review Order</h1>
+          <p className="text-on-surface-variant font-sans text-base md:text-lg">Authentic flavors, ready for your table</p>
         </section>
 
         <div className="flex flex-col xl:flex-row gap-12 mb-12">
@@ -532,7 +660,7 @@ const CartScreen = () => {
               cart.map(item => (
                 <div key={item.id} className="flex items-center gap-6 p-6 bg-white rounded-2xl group transition-all duration-300 editorial-shadow border border-outline-variant/5">
                   <div className="relative shrink-0">
-                    <img src={item.image} alt={item.name} className="w-28 h-28 object-cover rounded-xl shadow-sm" />
+                    <img src={item.image} alt={item.name} className="w-28 h-28 object-cover rounded-xl shadow-sm" referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
@@ -566,16 +694,16 @@ const CartScreen = () => {
           {cart.length > 0 && (
             <div className="w-full xl:w-96 space-y-8">
               <section className="space-y-6">
-                <div className="bg-surface-container-low p-8 rounded-3xl space-y-6">
+                <div className="bg-surface-container-low p-6 rounded-3xl space-y-6">
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Location</label>
                   <div className="flex items-center gap-4 bg-white p-5 rounded-2xl shadow-sm">
                     <TableIcon className="text-primary" size={24} />
                     <div>
                       <span className="block text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Table Number</span>
-                      <span className="text-xl font-bold">Twelve</span>
+                      <span className="text-xl font-bold">{tableNumber}</span>
                     </div>
                   </div>
-                  <p className="text-xs text-on-surface-variant italic opacity-70">Verified via QR entry at 08:45 PM.</p>
+                  <p className="text-xs text-on-surface-variant italic opacity-70">Verified via QR entry at {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.</p>
                 </div>
                 
                 <div className="space-y-4">
@@ -587,7 +715,7 @@ const CartScreen = () => {
                 </div>
               </section>
 
-              <section className="bg-surface-container p-8 rounded-3xl">
+              <section className="bg-surface-container p-6 rounded-3xl">
                 <div className="space-y-5 font-sans">
                   <div className="flex justify-between items-center text-on-surface-variant">
                     <span className="text-sm font-medium">Subtotal</span>
@@ -607,7 +735,7 @@ const CartScreen = () => {
                   </div>
                 </div>
                 
-                <Button onClick={handlePlaceOrder} className="w-full mt-8 py-6 gap-3 text-lg">
+                <Button onClick={handlePlaceOrder} className="w-full mt-8 py-4 gap-3 text-lg">
                   <span>Place Order</span>
                   <ArrowRight size={20} />
                 </Button>
@@ -630,7 +758,7 @@ const OrdersScreen = () => {
         <div className="flex justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
             <Utensils className="text-primary md:hidden" size={24} />
-            <span className="font-serif italic text-primary text-2xl">The Epicurean</span>
+            <span className="font-serif italic text-primary text-2xl">Kopitiam 1924</span>
           </div>
           <IconButton icon={Bell} />
         </div>
@@ -638,8 +766,8 @@ const OrdersScreen = () => {
 
       <main className="pt-24 px-6 max-w-7xl mx-auto">
         <section className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-on-surface mb-3 font-serif">Your Orders</h1>
-          <p className="text-on-surface-variant font-sans text-lg">Tracking your culinary journey</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-on-surface mb-3 font-serif">Your Orders</h1>
+          <p className="text-on-surface-variant font-sans text-base md:text-lg">Your local favorites, coming right up</p>
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
@@ -676,7 +804,7 @@ const OrdersScreen = () => {
                     <div key={idx} className="flex justify-between items-center">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-lg overflow-hidden bg-surface-container">
-                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="font-bold text-primary text-sm">{item.quantity}x</span>
@@ -706,8 +834,8 @@ const AdminDashboard = () => {
     <AppLayout isAdmin={true}>
       <header className="flex justify-between items-center px-6 py-6 w-full bg-white/80 backdrop-blur-md sticky top-0 z-30">
         <div>
-          <h1 className="font-serif font-bold text-2xl text-on-surface">Service Overview</h1>
-          <p className="font-sans text-sm text-on-surface-variant">Live metrics for Tonight's Service</p>
+          <h1 className="font-serif font-bold text-2xl text-on-surface">Kopitiam Management</h1>
+          <p className="font-sans text-sm text-on-surface-variant">Live metrics for Today's Service</p>
         </div>
         <div className="flex items-center gap-4">
           <IconButton icon={Bell} />
@@ -720,7 +848,7 @@ const AdminDashboard = () => {
       <section className="px-6 py-8">
         {/* Bento Grid Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="md:col-span-2 bg-gradient-to-br from-primary to-primary-container p-8 rounded-[1.5rem] text-on-primary shadow-xl shadow-primary/10 flex flex-col justify-between">
+          <div className="md:col-span-2 bg-gradient-to-br from-primary to-primary-container p-6 rounded-[1.5rem] text-on-primary shadow-xl shadow-primary/10 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <ShoppingBag className="text-4xl opacity-50" size={32} />
               <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-bold">+12% vs last week</span>
@@ -763,8 +891,8 @@ const AdminDashboard = () => {
                 <Chip>Terrace</Chip>
               </div>
             </div>
-            <div className="bg-surface-container-low rounded-[2rem] p-8 min-h-[400px] flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ad2c00 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+            <div className="bg-surface-container-low rounded-[2rem] p-6 min-h-[400px] flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#004d40 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
               <div className="grid grid-cols-4 gap-8 relative z-10">
                 {[1, 2, 3, 4].map(i => (
                   <div key={i} className={cn(
@@ -793,7 +921,7 @@ const AdminDashboard = () => {
                   <div key={dish.id} className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className={cn("w-12 h-12 rounded-xl overflow-hidden", dish.isSoldOut && "grayscale")}>
-                        <img src={dish.image} alt={dish.name} className="w-full h-full object-cover" />
+                        <img src={dish.image} alt={dish.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                       </div>
                       <div>
                         <h4 className="font-bold text-sm text-on-surface">{dish.name}</h4>
@@ -826,16 +954,47 @@ const AdminDashboard = () => {
 // --- App Entry ---
 
 export default function App() {
+  const [isTableActive, setIsTableActive] = useState(false);
+  const [tableNumber, setTableNumber] = useState<string | null>(null);
+
+  const handleScan = (table: string) => {
+    setTableNumber(table);
+    setIsTableActive(true);
+  };
+
   return (
     <CartProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<MenuScreen />} />
-          <Route path="/dish/:id" element={<ProductDetailScreen />} />
-          <Route path="/cart" element={<CartScreen />} />
-          <Route path="/orders" element={<OrdersScreen />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+          {!isTableActive ? (
+            <motion.div 
+              key="scan"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="min-h-screen"
+            >
+              <Routes>
+                <Route path="*" element={<ScanScreen onScan={handleScan} />} />
+              </Routes>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="app"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="min-h-screen"
+            >
+              <Routes>
+                <Route path="/" element={<MenuScreen />} />
+                <Route path="/dish/:id" element={<ProductDetailScreen />} />
+                <Route path="/cart" element={<CartScreen tableNumber={tableNumber || 'Twelve'} />} />
+                <Route path="/orders" element={<OrdersScreen />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+              </Routes>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Router>
     </CartProvider>
   );
